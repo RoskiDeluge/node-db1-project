@@ -6,6 +6,7 @@ const router = express.Router();
 
 // /api/accounts 
 
+// READ
 router.get('/', (req, res) => {
   db('accounts')
   // db.select().from('accounts')
@@ -34,6 +35,7 @@ router.get('/:id', (req, res) => {
     })
 });
 
+//CREATE
 router.post('/', (req, res) => {
   const accountData = req.body;
 
@@ -47,6 +49,7 @@ router.post('/', (req, res) => {
   })
 });
 
+//UPDATE
 router.put('/:id', (req, res) => {
   const changes = req.body;
 
@@ -65,8 +68,19 @@ router.put('/:id', (req, res) => {
     })
 });
 
+//DELETE
+router.delete('/:id', (req, res) => {
 
-
+  db('accounts')
+  .where({ id: req.params.id })
+  .del()
+  .then(deleted => {
+    res.status(200).json(deleted)
+  })
+  .catch(err => {
+    res.status(500).json({ message: "Database error while deleting account", err })
+  })
+});
 
 
 module.exports = router;

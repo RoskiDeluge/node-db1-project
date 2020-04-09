@@ -17,6 +17,22 @@ router.get('/', (req, res) => {
     })
 });
 
+router.get('/:id', (req, res) => {
+
+  db.select()
+    .from('accounts')
+    .where({ id: req.params.id })
+    .then(account => {
+      if (account) {
+        res.status(200).json(account)
+      } else {
+        res.status(400).json({ message: "error retrieving account" })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "database error", err })
+    })
+});
 
 
 

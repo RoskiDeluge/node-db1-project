@@ -47,6 +47,24 @@ router.post('/', (req, res) => {
   })
 });
 
+router.put('/:id', (req, res) => {
+  const changes = req.body;
+
+  db('accounts')
+    .where({ id: req.params.id })
+    .update(changes)
+    .then(count => {
+      if (count) {
+        res.json({ updated: count })
+      } else {
+        res.status(404).json({ message: "Invalid ID" })
+      }
+    })
+    .catch(err => {
+      res.status(500).json({ message: "Database error while updating", err })
+    })
+});
+
 
 
 
